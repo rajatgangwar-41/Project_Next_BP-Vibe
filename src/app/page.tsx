@@ -7,7 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 
 export default function Home() {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState("create a calculator application");
   const trpc = useTRPC();
   const invoke = useMutation(trpc.invoke.mutationOptions({}));
 
