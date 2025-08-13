@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
 import { PROJECT_TEMPLATES } from "@/modules/home/constants";
+import { useClerk } from "@clerk/nextjs";
 
 const formSchema = z.object({
   value: z
@@ -27,6 +28,7 @@ export const ProjectForm = () => {
   const router = useRouter();
   const [isFocused, setIsFocused] = useState(false);
 
+  const clerk = useClerk();
   const trpc = useTRPC();
   const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -46,6 +48,10 @@ export const ProjectForm = () => {
       onError: (error) => {
         // TODO: Redirect to pricing page if specific error
         toast.error(error.message);
+
+        if (error.data?.code === "UNAUTHORIZED") {
+          clerk.openSignIn();
+        }
       },
     }),
   );
