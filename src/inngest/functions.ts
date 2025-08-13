@@ -1,7 +1,7 @@
 import { inngest } from "./client";
 import {
-  // openai,
-  gemini,
+  openai,
+  // gemini,
   createAgent,
   createTool,
   createNetwork,
@@ -35,14 +35,14 @@ export const codeAgentFunction = inngest.createFunction(
       name: "code-agent",
       system: PROMPT,
       description: "An Expert Coding Agent",
-      // model: openai({
-      //   model: "gpt-4o-mini",
-      //   defaultParameters: { temperature: 0.1 },
-      // }),
-      model: gemini({
-        model: "gemini-1.5-flash",
-        defaultParameters: { generationConfig: { temperature: 0.1 } },
+      model: openai({
+        model: "gpt-4o-mini",
+        defaultParameters: { temperature: 0.1 },
       }),
+      // model: gemini({
+      //   model: "gemini-2.0-flash-lite",
+      //   defaultParameters: { generationConfig: { temperature: 0.1 } },
+      // }),
       tools: [
         createTool({
           name: "terminal",
