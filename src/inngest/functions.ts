@@ -18,6 +18,7 @@ import {
 import { z } from "zod";
 import { FRAGMENT_TITLE_PROMPT, PROMPT, RESPONSE_PROMPT } from "@/prompt";
 import prisma from "@/lib/db";
+import { SANDBOX_TIMEOUT } from "./types";
 
 interface AgentState {
   summary: string;
@@ -32,6 +33,7 @@ export const codeAgentFunction = inngest.createFunction(
       const sandbox = await Sandbox.create(
         "vibe-nextjs-test-rajat-gangwar-141",
       );
+      await sandbox.setTimeout(SANDBOX_TIMEOUT); // 30 minutes
 
       return sandbox.sandboxId;
     });
@@ -45,11 +47,10 @@ export const codeAgentFunction = inngest.createFunction(
           where: {
             projectId: event.data.projectId,
           },
-          orderBy: [
-            {
-              createdAt: "desc",
-            },
-          ],
+          orderBy: {
+            createdAt: "desc",
+          },
+          take: 5,
         });
 
         for (const message of messages) {
@@ -60,7 +61,7 @@ export const codeAgentFunction = inngest.createFunction(
           });
         }
 
-        return formattedMessages;
+        return formattedMessages.reverse();
       },
     );
 
