@@ -1,4 +1,4 @@
-import { TreeItem } from "@/types";
+import { type TreeItem } from "@/types";
 import {
   Sidebar,
   SidebarContent,
@@ -66,14 +66,16 @@ const Tree = ({ item, selectedValue, onSelect, parentPath }: TreeProps) => {
     // It's a file
     const isSelected = selectedValue === currentPath;
 
-    <SidebarMenuButton
-      isActive={isSelected}
-      className="data-[active=true]:bg-transparent"
-      onClick={() => onSelect?.(currentPath)}
-    >
-      <FileIcon />
-      <span className="truncate">{name}</span>
-    </SidebarMenuButton>;
+    return (
+      <SidebarMenuButton
+        isActive={isSelected}
+        className="data-[active=true]:bg-transparent"
+        onClick={() => onSelect?.(currentPath)}
+      >
+        <FileIcon />
+        <span className="truncate">{name}</span>
+      </SidebarMenuButton>
+    );
   }
 
   // It's a folder
