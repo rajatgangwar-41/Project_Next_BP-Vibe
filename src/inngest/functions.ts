@@ -1,7 +1,7 @@
 import { inngest } from "./client";
 import {
-  // openai,
-  gemini,
+  openai,
+  // gemini,
   createAgent,
   createTool,
   createNetwork,
@@ -80,14 +80,16 @@ export const codeAgentFunction = inngest.createFunction(
       name: "code-agent",
       system: PROMPT,
       description: "An Expert Coding Agent",
-      // model: openai({
-      //   model: "gpt-4o-mini",
-      //   defaultParameters: { temperature: 0.1 },
-      // }),
-      model: gemini({
-        model: "gemini-2.0-flash-lite",
-        defaultParameters: { generationConfig: { temperature: 0.1 } },
+      model: openai({
+        // model: "gpt-4o-mini",
+        model: "gpt-4.1-mini",
+        defaultParameters: { temperature: 0.1 },
       }),
+      // model: gemini({
+      //   // model: "gemini-2.0-flash-lite",
+      //   model: "gemini-2.5-flash-lite",
+      //   defaultParameters: { generationConfig: { temperature: 0.1 } },
+      // }),
       tools: [
         createTool({
           name: "terminal",
@@ -216,18 +218,28 @@ export const codeAgentFunction = inngest.createFunction(
       name: "fragment-title-generator",
       description: "A fragment title generator",
       system: FRAGMENT_TITLE_PROMPT,
-      model: gemini({
-        model: "gemini-2.0-flash-lite",
+      model: openai({
+        // model: "gpt-4o-mini",
+        model: "gpt-4.1-mini",
+        defaultParameters: { temperature: 0.1 },
       }),
+      // model: gemini({
+      //   model: "gemini-2.5-flash-lite",
+      // }),
     });
 
     const responseGenerator = createAgent({
       name: "response-generator",
       description: "A response generator",
       system: RESPONSE_PROMPT,
-      model: gemini({
-        model: "gemini-2.0-flash-lite",
+      model: openai({
+        // model: "gpt-4o-mini",
+        model: "gpt-4.1-mini",
+        defaultParameters: { temperature: 0.1 },
       }),
+      // model: gemini({
+      //   model: "gemini-2.5-flash-lite",
+      // }),
     });
 
     const { output: fragmentTitleOutput } = await fragmentTitleGenerator.run(
